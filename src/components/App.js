@@ -34,6 +34,12 @@ function App() {
   }
 
   /* Añadir nueva frase (INPUT de SUBMIT) */
+  const handleClick = (ev) => {
+    ev.preventDefault();
+    setData([
+      ...data, addPhrase
+    ]);
+  }
 
   // HTML 
 
@@ -53,7 +59,7 @@ function App() {
           <input type="text" name="quote" placeholder="Añade una frase" value={addPhrase.quote} onChange={handleAdd}/>
           <label htmlFor=""></label>
           <input type="text" name="character" placeholder="Personaje" value={addPhrase.character} onChange={handleAdd}/>
-          <input type="submit" value="Añadir una nueva frase"/>
+          <input type="submit" value="Añadir una nueva frase" onClick={handleClick}/>
         </form>
         </div>
       </main>
