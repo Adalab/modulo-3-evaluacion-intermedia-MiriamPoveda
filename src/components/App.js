@@ -34,11 +34,16 @@ function App() {
   }
 
   /* Añadir nueva frase (INPUT de SUBMIT) */
+  /* Limpiar INPUT al añadirla */
   const handleClick = (ev) => {
     ev.preventDefault();
     setData([
       ...data, addPhrase
     ]);
+    setAddPhrase({
+      quote: '',
+      character: '',
+    });
   }
 
   // HTML 
