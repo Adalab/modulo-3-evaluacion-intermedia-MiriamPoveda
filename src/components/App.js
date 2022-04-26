@@ -17,6 +17,7 @@ function App() {
   // Funciones
 
   /* Pintar los datos de la lista facilitada */
+  /* Filtrar por frase */
   const paintData = data.map((phrases, index) =>
     <li key={index}>
       <p>{phrases.quote}</p>
@@ -52,6 +53,24 @@ function App() {
     <div>
       <header>
         <h1>Frases de Friends</h1>
+        <form>
+        <label htmlFor="phrase">Filtrar por frase</label>
+          <input 
+          type="text" 
+          name="phrase" 
+          placeholder="Añade una frase" 
+          value=""/>
+          <label htmlFor="figure">Filtrar por personaje</label>
+          <select name="figures" id="figures">
+            <option value="all">Todos</option>
+            <option value="ross">Ross</option>
+            <option value="monica">Monica</option>
+            <option value="joey">Joey</option>
+            <option value="phoebe">Phoebe</option>
+            <option value="chandler">Chandler</option>
+            <option value="rachel">Rachel</option>
+          </select>
+        </form>
       </header>
       <main>
         <ul>
@@ -60,11 +79,24 @@ function App() {
         <div>
           <h2>Añadir una nueva frase</h2>
         <form>
-          <label htmlFor=""></label>
-          <input type="text" name="quote" placeholder="Añade una frase" value={addPhrase.quote} onChange={handleAdd}/>
-          <label htmlFor=""></label>
-          <input type="text" name="character" placeholder="Personaje" value={addPhrase.character} onChange={handleAdd}/>
-          <input type="submit" value="Añadir una nueva frase" onClick={handleClick}/>
+          <label htmlFor="quote">Frase</label>
+          <input 
+          type="text" 
+          name="quote" 
+          placeholder="Añade una frase" 
+          value={addPhrase.quote} 
+          onChange={handleAdd}/>
+          <label htmlFor="character">Personaje</label>
+          <input 
+          type="text" 
+          name="character" 
+          placeholder="Personaje" 
+          value={addPhrase.character} 
+          onChange={handleAdd}/>
+          <input 
+          type="submit" 
+          value="Añadir una nueva frase" 
+          onClick={handleClick}/>
         </form>
         </div>
       </main>
