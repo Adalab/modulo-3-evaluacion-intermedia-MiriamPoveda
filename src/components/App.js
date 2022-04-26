@@ -13,12 +13,18 @@ function App() {
     quote: '',
     character: '',
   });
+  /* Filtrar por frase */
+  const [searchQuote, setSearchQuote] = useState('');
 
   // Funciones
 
   /* Pintar los datos de la lista facilitada */
   /* Filtrar por frase */
-  const paintData = data.map((phrases, index) =>
+  const paintData = data
+  .filter((filterQuote) =>
+    filterQuote.quote.toLowerCase().includes(searchQuote.toLowerCase())
+  )
+  .map((phrases, index) =>
     <li key={index}>
       <p>{phrases.quote}</p>
       <p>{phrases.character}</p>
@@ -47,6 +53,11 @@ function App() {
     });
   }
 
+  /* Filtrar por frase */
+  const handleFilterQuote = (ev) => {
+    setSearchQuote(ev.target.value);
+  }
+
   // HTML 
 
   return (
@@ -59,7 +70,8 @@ function App() {
           type="text" 
           name="phrase" 
           placeholder="Añade una frase" 
-          value=""/>
+          value={searchQuote}
+          onChange={handleFilterQuote}/>
           <label htmlFor="figure">Filtrar por personaje</label>
           <select name="figures" id="figures">
             <option value="all">Todos</option>
