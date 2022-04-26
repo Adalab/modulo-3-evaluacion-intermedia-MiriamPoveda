@@ -15,14 +15,19 @@ function App() {
   });
   /* Filtrar por frase */
   const [searchQuote, setSearchQuote] = useState('');
+  /* Filtrar por personaje */
+  const [searchCharacter, setSearchCharacter] = useState('');
 
   // Funciones
 
   /* Pintar los datos de la lista facilitada */
-  /* Filtrar por frase */
+  /* Filtrar por frase */ /* Filtrar por personaje */
   const paintData = data
-  .filter((filterQuote) =>
-    filterQuote.quote.toLowerCase().includes(searchQuote.toLowerCase())
+  .filter((searchFilter) => 
+    searchFilter.quote.toLowerCase().includes(searchQuote.toLowerCase())
+  )
+  .filter((searchFilter) => 
+    searchFilter.character.includes(searchCharacter) 
   )
   .map((phrases, index) =>
     <li key={index}>
@@ -58,6 +63,11 @@ function App() {
     setSearchQuote(ev.target.value);
   }
 
+  /* Filtrar por personaje */
+  const handleFilterCharacter = (ev) => {
+    setSearchCharacter(ev.target.value);
+  }
+
   // HTML 
 
   return (
@@ -73,14 +83,14 @@ function App() {
           value={searchQuote}
           onChange={handleFilterQuote}/>
           <label htmlFor="figure">Filtrar por personaje</label>
-          <select name="figures" id="figures">
-            <option value="all">Todos</option>
-            <option value="ross">Ross</option>
-            <option value="monica">Monica</option>
-            <option value="joey">Joey</option>
-            <option value="phoebe">Phoebe</option>
-            <option value="chandler">Chandler</option>
-            <option value="rachel">Rachel</option>
+          <select name="figures" id="figures" value={searchCharacter} onChange={handleFilterCharacter}>
+            <option>All</option>
+            <option>Ross</option>
+            <option>Monica</option>
+            <option>Joey</option>
+            <option>Phoebe</option>
+            <option>Chandler</option>
+            <option>Rachel</option>
           </select>
         </form>
       </header>
