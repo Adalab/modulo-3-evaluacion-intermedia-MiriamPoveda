@@ -7,8 +7,8 @@ function App() {
 
   // Variables de estado 
 
-  /* Fetch con LS */
-  const [quotes, setQuotes] = useState(localStorage.get('quotes', []));
+  /* Fetch */
+  const [quotes, setQuotes] = useState([]);
   /* Lista de frases */
   const [data, setData] = useState(friendsPhrases);
   /* Añadir frase */
@@ -24,7 +24,6 @@ function App() {
   // Funciones
 
   /* Fetch */
-  /* Añadir LS */
   useEffect(() => {
     if (quotes.length === 0){
     getQuotes().then(datafromAPI => {
@@ -59,15 +58,12 @@ function App() {
   );
 
   /* Añadir nueva frase (INPUT de TEXT) */
-  /* Añadir LS */
   const handleAdd = (ev) => {
     setAddPhrase({
       ...addPhrase,
       [ev.target.name]: ev.target.value,
     });
-    localStorage.set('quotes', quotes);
     setQuotes(addPhrase);
-    console.log(addPhrase);
   }
 
   /* Añadir nueva frase (INPUT de SUBMIT) */
@@ -98,8 +94,8 @@ function App() {
   return (
     <div>
       <header className="header">
-        <h1>Frases de Friends</h1>
-        <form>
+        <h1>~ Frases de <span className="header__letterRed">F</span><span className="header__letterBlue">r</span><span className="header__letterRed">i</span><span className="header__letterBlue">e</span><span className="header__letterRed">n</span><span className="header__letterBlue">d</span><span className="header__letterRed">s</span> ~</h1>
+        <form className="header__formHead">
         <label htmlFor="phrase">Filtrar por frase</label>
           <input 
           type="text" 
@@ -119,12 +115,12 @@ function App() {
           </select>
         </form>
       </header>
-      <main>
+      <main className="main">
         <ul className="ulData">
           {paintData}
         </ul>
-        <form className="form">
-        <h2>Añadir una nueva frase</h2>
+        <form className="main__form">
+        <h3 className="main__title">Añadir una nueva frase</h3>
           <label htmlFor="quote">Frase</label>
           <input 
           type="text" 
@@ -139,7 +135,7 @@ function App() {
           placeholder="Personaje" 
           value={addPhrase.character} 
           onChange={handleAdd}/>
-          <input 
+          <input className="inputButton"
           type="submit" 
           value="Añadir una nueva frase" 
           onClick={handleClick}/>
