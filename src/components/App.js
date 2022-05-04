@@ -1,11 +1,14 @@
 import '../styles/App.scss';
 import friendsPhrases from '../data/friends.json';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import getQuotes from '../services/fetch';
 
 function App() {
 
   // Variables de estado 
 
+  /* Fetch con LS */
+  const [quotes, setQuotes] = useState(localStorage.get('quotes', []));
   /* Lista de frases */
   const [data, setData] = useState(friendsPhrases);
   /* Añadir frase */
@@ -16,9 +19,19 @@ function App() {
   /* Filtrar por frase */
   const [searchQuote, setSearchQuote] = useState('');
   /* Filtrar por personaje */
-  const [searchCharacter, setSearchCharacter] = useState('');
+  const [searchCharacter, setSearchCharacter] = useState('All');
 
   // Funciones
+
+  /* Fetch */
+  /* Añadir LS */
+  useEffect(() => {
+    if (quotes.length === 0){
+    getQuotes().then(datafromAPI => {
+      setQuotes(datafromAPI);
+  });
+}
+  }, []);
 
   /* Pintar los datos de la lista facilitada */
   /* Filtrar por frase */ /* Filtrar por personaje */
@@ -26,22 +39,34 @@ function App() {
   .filter((searchFilter) => 
     searchFilter.quote.toLowerCase().includes(searchQuote.toLowerCase())
   )
-  .filter((searchFilter) => 
-    searchFilter.character.includes(searchCharacter) 
-  )
+  .filter((searchFilter) => {
+    if (searchCharacter === 'All') {
+      return true;
+    } else if (searchCharacter === searchFilter.character) {
+      return true;
+    } else {
+      return false;
+    }
+  })
+  // .filter((searchFilter) => 
+  //   searchFilter.character.includes(searchCharacter) 
+  // )
   .map((phrases, index) =>
     <li key={index}>
-      <p>{phrases.quote}</p>
-      <p>{phrases.character}</p>
+      <p className="ulData__liQuote">{phrases.quote}</p>
+      <p className="ulData__liCharacter">{phrases.character}</p>
     </li>
   );
 
   /* Añadir nueva frase (INPUT de TEXT) */
+  /* Añadir LS */
   const handleAdd = (ev) => {
     setAddPhrase({
       ...addPhrase,
       [ev.target.name]: ev.target.value,
     });
+    localStorage.set('quotes', quotes);
+    setQuotes(addPhrase);
     console.log(addPhrase);
   }
 
@@ -72,35 +97,34 @@ function App() {
 
   return (
     <div>
-      <header>
+      <header className="header">
         <h1>Frases de Friends</h1>
         <form>
         <label htmlFor="phrase">Filtrar por frase</label>
           <input 
           type="text" 
           name="phrase" 
-          placeholder="Añade una frase" 
+          placeholder="Busca tu frase favorita" 
           value={searchQuote}
           onChange={handleFilterQuote}/>
           <label htmlFor="figure">Filtrar por personaje</label>
           <select name="figures" id="figures" value={searchCharacter} onChange={handleFilterCharacter}>
-            <option>All</option>
-            <option>Ross</option>
-            <option>Monica</option>
-            <option>Joey</option>
-            <option>Phoebe</option>
-            <option>Chandler</option>
-            <option>Rachel</option>
+            <option value='All'>All</option>
+            <option value='Ross'>Ross</option>
+            <option value='Monica'>Monica</option>
+            <option value='Joey'>Joey</option>
+            <option value='Phoebe'>Phoebe</option>
+            <option value='Chandler'>Chandler</option>
+            <option value='Rachel'>Rachel</option>
           </select>
         </form>
       </header>
       <main>
-        <ul>
+        <ul className="ulData">
           {paintData}
         </ul>
-        <div>
-          <h2>Añadir una nueva frase</h2>
-        <form>
+        <form className="form">
+        <h2>Añadir una nueva frase</h2>
           <label htmlFor="quote">Frase</label>
           <input 
           type="text" 
@@ -120,7 +144,6 @@ function App() {
           value="Añadir una nueva frase" 
           onClick={handleClick}/>
         </form>
-        </div>
       </main>
     </div>
   );

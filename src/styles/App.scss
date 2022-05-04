@@ -1,0 +1,25 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ulData {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+
+    &__liQuote {
+        background-color: grey;
+    }
+
+    &__liCharacter {
+        background-color: salmon;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
